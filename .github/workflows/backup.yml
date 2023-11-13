@@ -17,4 +17,4 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
-        run: mysqldump --host=${{ secrets.ACTIONKIT_DB_HOST }} --user='${{ secrets.ACTIONKIT_DB_USER }}' --password='${{ secrets.ACTIONKIT_DB_PASSWORD }}' --skip-lock-tables --no-tablespaces --routines --triggers --compress --compact --databases '${{ secrets.ACTIONKIT_DB_NAME }}' | gzip | aws s3 cp - s3://'${{ secrets.AWS_S3_BUCKET_NAME }}'/'${{ secrets.ACTIONKIT_DB_NAME }}'.sql.gz
+        run: mysqldump --host=${{ secrets.ACTIONKIT_DB_HOST }} --user='${{ secrets.ACTIONKIT_DB_USER }}' --password='${{ secrets.ACTIONKIT_DB_PASSWORD }}' --skip-lock-tables --no-tablespaces --routines --triggers --compress --set-gtid-purged=OFF --databases '${{ secrets.ACTIONKIT_DB_NAME }}' | gzip | aws s3 cp - s3://'${{ secrets.AWS_S3_BUCKET_NAME }}'/'${{ secrets.ACTIONKIT_DB_NAME }}'.sql.gz
